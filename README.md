@@ -1,64 +1,64 @@
 <div align="center">
-  <img src="./velocity-venue/public/logo.png" height="120" alt="Velocity Venue Logo" />
-  <h1>Velocity Venue // Mission Control</h1>
+  <img src="./velocity-venue/public/logo.png" height="120" alt="VenueFlow Logo" />
+  <h1>VenueFlow</h1>
   
-  <p><strong>A Next-Generation AI-Driven Event SCADA Orchestration Engine</strong></p>
+  <p><strong>A smart command center for managing massive crowds at live events.</strong></p>
 
   <p>
     <img src="https://img.shields.io/badge/REACT-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
     <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
-    <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white" />
+    <img src="https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white" />
   </p>
 </div>
 
 ---
 
-## ⚡ Overview
+## ⚡ What is VenueFlow?
 
-**Velocity Venue** is an advanced operational dashboard and simulator for major event coordination, operating as a centralized Mission Control system to completely eliminate friction points at massively scaled venues. Designed around a multi-tenant node architecture, it acts to reduce crowd congestion, streamline operations, and pre-emptively simulate live structural heatmap data.
+Hey there! **VenueFlow** is a dashboard I built to act as a "Mission Control" for huge live events. The goal here is simple: eliminate those awful bottlenecks and massive lines you always get stuck in at stadiums or concerts.
 
-## 🚀 Key Features
+It works by tracking everything happening at an event—from sensor pings and security patrols to external subway delays—and wrapping it all up in a really clean, dark-mode SCADA interface.
 
-* **Multi-Venue Architecture Engine:** Add custom distinct physical locations directly via the command center. Track different venue types seamlessly (Stadia, Concert Halls, Arenas, and Circuits).
-* **Structural Map Generative Interface:** Real-time geometric blueprints dynamically load to match the specific Venue Type parameter provided in setup.
-* **Deep-Dive Diagnostic Layouts:** Effortlessly drill down into specific sub-systems (Security Logs, Transit Delays, Sensor Pings, Predictive Timelines) for ultra-detailed granular telemetry tracking.
-* **Predictive Crowd Logistics:** Internal simulation algorithms fluctuate heat nodes and sensor alerts to train predictive logic models accurately against large venue behaviors.
-* **Sleek Cyber-Aesthetic Elements:** Designed meticulously with a glassmorphic aesthetic to maximize read visibility, contrast, and operator engagement inside low-light control rooms.
+## 🚀 Cool Stuff It Does
+
+* **Manage Multiple Venues:** You can monitor everything from a 100K-seat open-air stadium to an indoor concert hall. Just add a new venue and the dashboard adapts to it!
+* **Dynamic Maps:** Based on the type of venue you create, the dashboard literally redraws its background structural map. (For example, if you track a racetrack, you'll actually see a geometric circuit instead of a football pitch!)
+* **Deep Dive Analytics:** The homepage keeps things simple, but if you want to dig into actual raw system logs or pinpoint wait times for specific pizza stands, just click a module and it expands into a full diagnostic layout. 
+* **Simulated Chaos:** We wrote a custom engine that throws random surges, reroutes, and delays at the map so you can see how the system handles realistic crowd flows.
 
 ---
 
-## 🛠️ Quick Start & Installation
+## 🛠️ How to run it locally
 
-Ensure you have [Node.js](https://nodejs.org/) installed on your machine. 
+If you want to spin this up on your machine, it's pretty easy. Make sure you have Node installed!
 
-1. **Navigate to the core dashboard interface folder:**
+1. Jump into the frontend folder:
    ```bash
    cd velocity-venue
    ```
 
-2. **Install all framework dependencies:**
+2. Install the packages:
    ```bash
    npm install
    ```
 
-3. **Initialize the local Vite Dev Server:**
+3. Start the dev server:
    ```bash
    npm run dev
    ```
 
-4. **Boot Up The Interface:**
-   Launch your browser and navigate to the local host provided (usually `http://localhost:5173/`).
+4. Head over to `http://localhost:5173/` in your browser.
 
 ---
 
-## 🏗️ Future Integration Targets (Google Workspace)
+## 🏗️ What's Next? (Google Ecosystem)
 
-Velocity Venue is built to integrate heavily with **The Google Ecosystem** to cross over from localized tracking to holistic fan engagement logic:
-- **Google Maps API**: Offload simulated heatmaps and instead triangulate massive crowd movement density data, pushing Reroute flows automatically when physical bottlenecks exist.
-- **Firebase Engine Sync**: Handle continuous live data ingestion matching timeline sync points automatically via triggers.
-- **Google Pay/Wallet**: Build in custom logic queues to calculate line waiting time based on transaction flow velocity!
+I designed VenueFlow so it can hook up directly with real-world Google infrastructure:
+- **Google Maps API**: Replacing the simulated heatmaps with actual triangulated crowd density based on location services.
+- **Firebase**: Using realtime database streams to push events instead of our local system polling loop.
+- **Google Pay/Wallet**: Analyzing transaction velocity at concession stands to automatically predict when food lines are dropping!
 
 ---
 
-> _Built during the 2026 Prompt Wars._
+> _Built with ❤️ by **Nidhi** during the 2026 Prompt Wars. Built using **Antigravity** and proudly deployed via **Google Cloud**._
