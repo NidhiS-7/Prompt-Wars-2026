@@ -1,6 +1,5 @@
-# Prompt-Wars-2026
 <div align="center">
-  <img src="./velocity-venue/public/vite.svg" height="80" alt="Velocity Venue Logo" />
+  <img src="./velocity-venue/public/logo.png" height="120" alt="Velocity Venue Logo" />
   <h1>Velocity Venue // Mission Control</h1>
   
   <p><strong>A Next-Generation AI-Driven Event SCADA Orchestration Engine</strong></p>
