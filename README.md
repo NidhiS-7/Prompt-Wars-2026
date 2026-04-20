@@ -35,7 +35,7 @@ Follow these steps to run the application locally on your machine. Ensure that N
 
 1. Open your terminal and navigate to the frontend folder:
    ```bash
-   cd velocity-venue
+   cd Prompt-Wars-2026-main\venue
    ```
 
 2. Install the necessary project dependencies:
