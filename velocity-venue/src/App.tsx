@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Activity, Map, Users, AlertTriangle, Route, Clock, Zap, CheckCircle2, ShieldAlert, TrainFront, Car, ShieldCheck, Radio, UserCog, Home, MenuSquare, ChevronDown, Plus, Maximize, Minimize } from 'lucide-react';
-import { VenueAPI, VenueState, VenueMetadata } from './api/mockData';
+import { VenueAPI, VenueState, VenueMetadata, HeatmapNode } from './api/mockData';
 
-const MapGraphic = ({ type }: { type: string }) => {
+// Memos for performance efficiency
+const MapGraphic = memo(({ type }: { type: string }) => {
   const baseClass = "absolute w-[95%] h-[95%] opacity-50 z-0 drop-shadow-[0_0_20px_rgba(0,0,0,0.6)]";
 
   if (type === 'Concert') {
@@ -86,7 +87,9 @@ const MapGraphic = ({ type }: { type: string }) => {
       <rect x="59" y="46" width="4" height="8" fill="none" stroke="#3B82F6" strokeWidth="0.3" />
     </svg>
   );
-};
+});
+
+MapGraphic.displayName = 'MapGraphic';
 
 type ViewTab = 'home' | 'staff' | 'sensors' | 'security' | 'transit' | 'timeline' | 'routes' | 'queues';
 
@@ -108,7 +111,7 @@ export default function App() {
   const [isMapExpanded, setIsMapExpanded] = useState(false);
   const [timeframe, setTimeframe] = useState('1H');
   const [scrambleKey, setScrambleKey] = useState(0);
-  const [selectedActionNode, setSelectedActionNode] = useState<any>(null);
+  const [selectedActionNode, setSelectedActionNode] = useState<HeatmapNode | null>(null);
   const [actionState, setActionState] = useState<'idle' | 'executing' | 'resolved'>('idle');
 
   // Work Interaction States
@@ -117,7 +120,7 @@ export default function App() {
   const [flushedQueues, setFlushedQueues] = useState<Set<string>>(new Set());
   const [sysParams, setSysParams] = useState({ freq: 120, bandwidth: 8.4, cooling: 92 });
 
-  const handleNodeAction = (action: string) => {
+  const handleNodeAction = useCallback((action: string) => {
     setActionState('executing');
     setTimeout(() => {
       setActionState('resolved');
@@ -126,26 +129,26 @@ export default function App() {
         setActionState('idle');
       }, 1500);
     }, 1200);
-  };
+  }, []);
 
-  const handleStaffBoost = (e: React.MouseEvent, id: string, amount: number) => {
+  const handleStaffBoost = useCallback((e: React.MouseEvent, id: string, amount: number) => {
     e.stopPropagation();
     setStaffBoosts(prev => ({ ...prev, [id]: (prev[id] || 0) + amount }));
-  };
+  }, []);
 
-  const handleAckAlert = (e: React.MouseEvent, id: string) => {
+  const handleAckAlert = useCallback((e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     const next = new Set(ackAlerts);
     next.add(id);
     setAckAlerts(next);
-  };
+  }, [ackAlerts]);
 
-  const handleFlushQueue = (e: React.MouseEvent, id: string) => {
+  const handleFlushQueue = useCallback((e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     const next = new Set(flushedQueues);
     next.add(id);
     setFlushedQueues(next);
-  };
+  }, [flushedQueues]);
 
   // Initial load of venues
   useEffect(() => {
@@ -189,7 +192,7 @@ export default function App() {
 
   const { telemetry, heatmap, routes, queues, timeline, security, transit, staff, sensors } = vState;
 
-  const navItems: { id: ViewTab, icon: any, label: string }[] = [
+  const navItems = useMemo<{ id: ViewTab, icon: any, label: string }[]>(() => [
     { id: 'home', icon: Home, label: 'Mission Control Home' },
     { id: 'staff', icon: UserCog, label: 'Staff Deployment' },
     { id: 'sensors', icon: Radio, label: 'Sensor Network' },
@@ -198,7 +201,7 @@ export default function App() {
     { id: 'timeline', icon: Clock, label: 'Predictive Timeline' },
     { id: 'routes', icon: Route, label: 'Crowd Routing Engine' },
     { id: 'queues', icon: Users, label: 'Smart Queues' },
-  ];
+  ], []);
 
   const getTabConfig = (tab: ViewTab) => {
     switch (tab) {
@@ -221,7 +224,7 @@ export default function App() {
     }
   }
 
-  const activeConfig = getTabConfig(activeTab);
+  const activeConfig = useMemo(() => getTabConfig(activeTab), [activeTab]);
 
   return (
     <div className="w-screen h-screen flex bg-black overflow-hidden font-sans text-cyber-light">
@@ -283,6 +286,8 @@ export default function App() {
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
                 title={item.label}
+                aria-label={item.label}
+                aria-current={isActive ? 'page' : undefined}
                 className={`relative p-3.5 rounded-xl transition-all duration-300 ease-out w-full flex justify-center group ${isActive ? 'bg-cyber-accent text-black shadow-[0_0_20px_rgba(0,240,255,0.3)]' : 'text-white/40 hover:text-white hover:bg-white/10'
                   }`}
               >
@@ -483,7 +488,7 @@ export default function App() {
                 {globalLockdown && <div className="absolute inset-0 bg-cyber-alert/5 pointer-events-none z-10 animate-pulse mix-blend-screen"></div>}
                 <div className="bg-white/[0.02] p-3 border-b border-white/5 backdrop-blur-sm z-30 flex justify-between items-center absolute top-0 w-full">
                   <div className="flex items-center gap-4">
-                    <button onClick={() => setIsMapExpanded(!isMapExpanded)} className="text-white/50 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-1.5 rounded border border-white/10" title="Toggle Map Size">
+                    <button onClick={() => setIsMapExpanded(!isMapExpanded)} aria-label="Toggle map size" className="text-white/50 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-1.5 rounded border border-white/10" title="Toggle Map Size">
                       {isMapExpanded ? <Minimize className="w-3.5 h-3.5" /> : <Maximize className="w-3.5 h-3.5" />}
                     </button>
                     <p className={`text-xs font-mono tracking-widest flex items-center gap-2 ${globalLockdown ? 'text-cyber-alert' : 'text-cyber-secondary'}`}>
